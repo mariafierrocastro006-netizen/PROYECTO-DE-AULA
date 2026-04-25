@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidaFit - Dashboard de Administrador</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+    <div class="main-container">
+        <nav class="sidebar">
+            <div class="logo-content">
+                <div class="logo">
+                    <i class='bx bxs-dumbbell'></i>
+                    <div class="logo_name">
+                        <span>VidaFit</span>
+                        <p>Panel Admin</p>
+                    </div>
+                </div>
+            </div>
+            <ul class="nav_list">
+                <li>
+                    <a href="#">
+                        <i class='bx bx-grid-alt'></i>
+                        <span class="links_name">Dashboard</span>
+                    </a>
+                </li>
+                <!-- Clase 'active' para simular el estado seleccionado en la imagen 4 -->
+                <li class="active">
+                    <a href="#">
+                        <i class='bx bx-closet'></i>
+                        <span class="links_name">Productos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-folder'></i>
+                        <span class="links_name">Archivos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-support'></i>
+                        <span class="links_name">Soporte</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-user'></i>
+                        <span class="links_name">Usuarios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-bar-chart-alt-2'></i>
+                        <span class="links_name">Reportes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bx-cog'></i>
+                        <span class="links_name">Configuración</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="profile_content">
+                <a href="#" class="logout-link">
+                    <i class='bx bx-log-out'></i>
+                    <span class="links_name">Cerrar Sesión</span>
+                </a>
+            </div>
+        </nav>
+
+        
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Dashboard de Administrador</h1>
+                <p>Gestiona tu tienda deportiva</p>
+            </header>
+
+            <section class="metrics-grid">
+                <article class="metric-card">
+                    <div class="metric-info">
+                        <h3>Ventas Totales</h3>
+                        <p class="metric-value">$45,231</p>
+                        <p class="metric-trend up"><i class='bx bx-trending-up'></i> +20.1% desde el último mes</p>
+                    </div>
+                    <div class="metric-icon green">
+                        <i class='bx bx-dollar'></i>
+                    </div>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-info">
+                        <h3>Productos Vendidos</h3>
+                        <p class="metric-value">1,234</p>
+                        <p class="metric-trend up"><i class='bx bx-trending-up'></i> +15.3% desde el último mes</p>
+                    </div>
+                    <div class="metric-icon magenta">
+                        <i class='bx bx-shopping-bag'></i>
+                    </div>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-info">
+                        <h3>Clientes Activos</h3>
+                        <p class="metric-value">892</p>
+                        <p class="metric-trend up"><i class='bx bx-trending-up'></i> +8.2% desde el último mes</p>
+                    </div>
+                    <div class="metric-icon orange">
+                        <i class='bx bx-user-plus'></i>
+                    </div>
+                </article>
+
+                <article class="metric-card">
+                    <div class="metric-info">
+                        <h3>Tasa de Conversión</h3>
+                        <p class="metric-value">3.2%</p>
+                        <p class="metric-trend up"><i class='bx bx-trending-up'></i> +2.4% desde el último mes</p>
+                    </div>
+                    <div class="metric-icon gray">
+                        <i class='bx bx-line-chart'></i>
+                    </div>
+                </article>
+            </section>
+            <section class="products-section">
+                <div class="products-header">
+                    <div>
+                        <h2>Gestión de Productos</h2>
+                        <p>Administra el inventario de tu tienda</p>
+                    </div>
+                    <button class="btn-add"><i class='bx bx-plus'></i> Agregar Producto</button>
+                </div>
+
+                <div class="search-bar">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Buscar productos...">
+                </div>
+
+                
+                <div class="table-container">
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#1</td>
+                                <td>Set de Yoga Premium</td>
+                                <td>Conjuntos</td>
+                                <td>$89.99</td>
+                                <td>45</td>
+                                <td><span class="status-badge active">Activo</span></td>
+                                <td class="actions">
+                                    <button class="btn-action"><i class='bx bx-edit-alt'></i></button>
+                                    <button class="btn-action"><i class='bx bx-trash'></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#2</td>
+                                <td>Leggings Coloridos</td>
+                                <td>Leggings</td>
+                                <td>$54.99</td>
+                                <td>32</td>
+                                <td><span class="status-badge active">Activo</span></td>
+                                <td class="actions">
+                                    <button class="btn-action"><i class='bx bx-edit-alt'></i></button>
+                                    <button class="btn-action"><i class='bx bx-trash'></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#3</td>
+                                <td>Sports Bra Running Pro</td>
+                                <td>Tops & Bras</td>
+                                <td>$39.99</td>
+                                <td>8</td>
+                                <td><span class="status-badge low-stock">Bajo Stock</span></td>
+                                <td class="actions">
+                                    <button class="btn-action"><i class='bx bx-edit-alt'></i></button>
+                                    <button class="btn-action"><i class='bx bx-trash'></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#4</td>
+                                <td>Conjunto Deportivo Gym</td>
+                                <td>Conjuntos</td>
+                                <td class="special-price">$79.99</td>
+                                <td>0</td>
+                                <td><span class="status-badge out-of-stock">Agotado</span></td>
+                                <td class="actions">
+                                    <button class="btn-action"><i class='bx bx-edit-alt'></i></button>
+                                    <button class="btn-action"><i class='bx bx-trash'></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+    <div class="modal-overlay" id="add-product-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2>Agregar Nuevo Producto</h2>
+                    <p>Completa la información del producto</p>
+                </div>
+                <button class="btn-close-modal"><i class='bx bx-x'></i></button>
+            </div>
+            <form class="modal-form">
+                <div class="form-group">
+                    <label>Nombre del Producto</label>
+                    <input type="text" placeholder="Ej: Leggings Premium">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>Precio</label>
+                        <input type="number" step="0.01" placeholder="0.00">
+                    </div>
+                    <div class="form-group half">
+                        <label>Stock</label>
+                        <input type="number" placeholder="0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Categoría</label>
+                    <input type="text" placeholder="Ej: Leggings">
+                </div>
+
+                <button type="submit" class="btn-save">Guardar Producto</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
