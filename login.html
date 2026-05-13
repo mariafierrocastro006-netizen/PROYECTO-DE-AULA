@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="login.css">
 
+
 </head>
 <body>
 
@@ -23,7 +24,7 @@
             </header>
 
             
-            <form class="login-form">
+            <form class="login-form" id="loginForm">
 
                 <div class="input-group">
                     <label for="email">Correo Electrónico</label>
@@ -35,30 +36,7 @@
                     <input type="password" id="password" placeholder="••••••••" required>
                 </div>
 
-                <div class="input-group role-group">
-                    <label>Tipo de Usuario</label>
-                    <div class="role-selectors">
-                          
-                        <div class="role-option">
-                            <input type="radio" id="role-user" name="user_role" checked>
-                            <label for="role-user" class="role-btn user-btn">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i>
-                                <span>Usuario</span>
-                            </label>
-                        </div>
-
-                        <div class="role-option">
-                            <input type="radio" id="role-admin" name="user_role">
-                            <label for="role-admin" class="role-btn admin-btn">
-                                <i class="fa-solid fa-gears"></i>
-                                <span>Admin</span>
-                            </label>
-                        </div>
-
-                    </div>
-                </div>
-
-               
+                <div id="message" style="margin-bottom: 15px; font-weight: 500; text-align: center; font-size: 0.9rem;"></div>
                 <button type="submit" class="submit-btn">Iniciar Sesión</button>
 
             </form>
@@ -72,5 +50,6 @@
 
     </div>
 
+    <script src="script.js"></script>
 </body>
 </html>

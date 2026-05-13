@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VidaFit - Dashboard de Administrador</title>
+    <title>VidaFit - Panel de Administración</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="dashboard.css">
 </head>
+
 <body>
 
     <div class="main-container">
@@ -24,44 +27,43 @@
                 </div>
             </div>
             <ul class="nav_list">
-                <li>
+                <li class="nav-item active" data-section="dashboard">
                     <a href="#">
                         <i class='bx bx-grid-alt'></i>
                         <span class="links_name">Dashboard</span>
                     </a>
                 </li>
-                <!-- Clase 'active' para simular el estado seleccionado en la imagen 4 -->
-                <li class="active">
+                <li class="nav-item" data-section="productos">
                     <a href="#">
                         <i class='bx bx-closet'></i>
                         <span class="links_name">Productos</span>
                     </a>
                 </li>
-                <li>
+                <li class="nav-item" data-section="archivos">
                     <a href="#">
                         <i class='bx bx-folder'></i>
                         <span class="links_name">Archivos</span>
                     </a>
                 </li>
-                <li>
+                <li class="nav-item" data-section="soporte">
                     <a href="#">
                         <i class='bx bx-support'></i>
                         <span class="links_name">Soporte</span>
                     </a>
                 </li>
-                <li>
+                <li class="nav-item" data-section="usuarios">
                     <a href="#">
                         <i class='bx bx-user'></i>
                         <span class="links_name">Usuarios</span>
                     </a>
                 </li>
-                <li>
+                <li class="nav-item" data-section="reportes">
                     <a href="#">
                         <i class='bx bx-bar-chart-alt-2'></i>
                         <span class="links_name">Reportes</span>
                     </a>
                 </li>
-                <li>
+                <li class="nav-item" data-section="configuracion">
                     <a href="#">
                         <i class='bx bx-cog'></i>
                         <span class="links_name">Configuración</span>
@@ -69,184 +71,490 @@
                 </li>
             </ul>
             <div class="profile_content">
-                <a href="#" class="logout-link">
+                <a href="index.html" class="logout-link">
                     <i class='bx bx-log-out'></i>
-                    <span class="links_name">Cerrar Sesión</span>
+                    <span class="links_name">Volver a la Tienda</span>
                 </a>
             </div>
         </nav>
 
-        
         <main class="main-content">
-            <header class="page-header">
-                <h1>Dashboard de Administrador</h1>
-                <p>Gestiona tu tienda deportiva</p>
-            </header>
+            <!-- SECCIÓN DASHBOARD -->
+            <section id="section-dashboard" class="admin-section active">
+                <header class="page-header">
+                    <h1>Resumen General</h1>
+                    <p>Bienvenido al panel de control de VidaFit</p>
+                </header>
+                <div class="metrics-grid">
+                    <article class="metric-card">
+                        <div class="metric-info">
+                            <h3>Ventas Totales</h3>
+                            <p class="metric-value">$45,231</p>
+                            <p class="metric-trend up"><i class='bx bx-trending-up'></i> +20.1%</p>
+                        </div>
+                        <div class="metric-icon green"><i class='bx bx-dollar'></i></div>
+                    </article>
+                    <article class="metric-card">
+                        <div class="metric-info">
+                            <h3>Productos Vendidos</h3>
+                            <p class="metric-value">1,234</p>
+                            <p class="metric-trend up"><i class='bx bx-trending-up'></i> +15.3%</p>
+                        </div>
+                        <div class="metric-icon magenta"><i class='bx bx-shopping-bag'></i></div>
+                    </article>
+                    <article class="metric-card">
+                        <div class="metric-info">
+                            <h3>Clientes Activos</h3>
+                            <p class="metric-value">892</p>
+                            <p class="metric-trend up"><i class='bx bx-trending-up'></i> +8.2%</p>
+                        </div>
+                        <div class="metric-icon orange"><i class='bx bx-user-plus'></i></div>
+                    </article>
+                    <article class="metric-card">
+                        <div class="metric-info">
+                            <h3>Tasa de Conversión</h3>
+                            <p class="metric-value">3.2%</p>
+                            <p class="metric-trend up"><i class='bx bx-trending-up'></i> +2.4%</p>
+                        </div>
+                        <div class="metric-icon gray"><i class='bx bx-line-chart'></i></div>
+                    </article>
+                </div>
+                <div class="products-section" style="margin-top: 30px;">
+                    <h2>Alertas de Inventario</h2>
+                    <p style="color: #777; margin-bottom: 20px;">Productos que necesitan tu atención pronto.</p>
+                    <div class="table-container">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Stock Actual</th>
+                                    <th>Estado</th>
+                                    <th>Acción Sugerida</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mancuernas 10kg</td>
+                                    <td>12</td>
+                                    <td><span class="status-badge low-stock">Bajo Stock</span></td>
+                                    <td><button
+                                            style="border: none; background: #f97316; color: white; padding: 5px 10px; border-radius: 6px; cursor: pointer;">Reabastecer</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Bicicleta Estática Pro</td>
+                                    <td>0</td>
+                                    <td><span class="status-badge out-of-stock">Agotado</span></td>
+                                    <td><button
+                                            style="border: none; background: #ef4444; color: white; padding: 5px 10px; border-radius: 6px; cursor: pointer;">Contactar
+                                            Proveedor</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-            <section class="metrics-grid">
-                <article class="metric-card">
-                    <div class="metric-info">
-                        <h3>Ventas Totales</h3>
-                        <p class="metric-value">$45,231</p>
-                        <p class="metric-trend up"><i class='bx bx-trending-up'></i> +20.1% desde el último mes</p>
+                <div class="products-section" style="margin-top: 30px;">
+                    <h2>Órdenes Recientes</h2>
+                    <p style="color: #777; margin-bottom: 20px;">Últimas compras realizadas por los clientes.</p>
+                    <div class="table-container">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>ID Pedido</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#ORD-1092</td>
+                                    <td>Ana López</td>
+                                    <td>Hace 2 horas</td>
+                                    <td>$145.98</td>
+                                    <td><span class="status-badge active"
+                                            style="background: rgba(16, 185, 129, 0.1); color: #10b981;">Completado</span>
+                                    </td>
+                                    <td class="actions"><button class="btn-action"><i class='bx bx-show'></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-1091</td>
+                                    <td>Carlos G.</td>
+                                    <td>Hace 5 horas</td>
+                                    <td>$89.99</td>
+                                    <td><span class="status-badge"
+                                            style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">Enviado</span>
+                                    </td>
+                                    <td class="actions"><button class="btn-action"><i class='bx bx-show'></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-1090</td>
+                                    <td>Lucía M.</td>
+                                    <td>Ayer</td>
+                                    <td>$39.99</td>
+                                    <td><span class="status-badge low-stock">Procesando</span></td>
+                                    <td class="actions"><button class="btn-action"><i class='bx bx-show'></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="metric-icon green">
-                        <i class='bx bx-dollar'></i>
-                    </div>
-                </article>
-                <article class="metric-card">
-                    <div class="metric-info">
-                        <h3>Productos Vendidos</h3>
-                        <p class="metric-value">1,234</p>
-                        <p class="metric-trend up"><i class='bx bx-trending-up'></i> +15.3% desde el último mes</p>
-                    </div>
-                    <div class="metric-icon magenta">
-                        <i class='bx bx-shopping-bag'></i>
-                    </div>
-                </article>
-                <article class="metric-card">
-                    <div class="metric-info">
-                        <h3>Clientes Activos</h3>
-                        <p class="metric-value">892</p>
-                        <p class="metric-trend up"><i class='bx bx-trending-up'></i> +8.2% desde el último mes</p>
-                    </div>
-                    <div class="metric-icon orange">
-                        <i class='bx bx-user-plus'></i>
-                    </div>
-                </article>
-
-                <article class="metric-card">
-                    <div class="metric-info">
-                        <h3>Tasa de Conversión</h3>
-                        <p class="metric-value">3.2%</p>
-                        <p class="metric-trend up"><i class='bx bx-trending-up'></i> +2.4% desde el último mes</p>
-                    </div>
-                    <div class="metric-icon gray">
-                        <i class='bx bx-line-chart'></i>
-                    </div>
-                </article>
+                </div>
             </section>
-            <section class="products-section">
-                <div class="products-header">
-                    <div>
-                        <h2>Gestión de Productos</h2>
-                        <p>Administra el inventario de tu tienda</p>
+            <section id="section-productos" class="admin-section" style="display: none;">
+                <header class="page-header">
+                    <h1>Inventario de Productos</h1>
+                    <p>Administra los artículos disponibles en la tienda</p>
+                </header>
+                <div class="products-section">
+                    <div class="products-header">
+                        <div class="search-bar" style="margin-bottom: 0; width: 300px;">
+                            <i class='bx bx-search'></i>
+                            <input type="text" placeholder="Buscar productos...">
+                        </div>
+                        <button class="btn-add" id="btn-open-modal"><i class='bx bx-plus'></i> Nuevo Producto</button>
                     </div>
-                    <button class="btn-add"><i class='bx bx-plus'></i> Agregar Producto</button>
+                    <div class="table-container">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Producto</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-products-tbody">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
-                <div class="search-bar">
-                    <i class='bx bx-search'></i>
-                    <input type="text" placeholder="Buscar productos...">
+            </section>
+            <section id="section-archivos" class="admin-section" style="display: none;">
+                <header class="page-header">
+                    <h1>Gestión de Archivos</h1>
+                    <p>Administra catálogos, imágenes y documentos</p>
+                </header>
+                <div class="metrics-grid">
+                    <article class="metric-card">
+                        <div class="metric-info">
+                            <h3>Total Archivos</h3>
+                            <p class="metric-value">42</p>
+                        </div>
+                        <div class="metric-icon green"><i class='bx bx-file'></i></div>
+                    </article>
+                    <article class="metric-card">
+                        <div class="metric-info">
+                            <h3>Espacio</h3>
+                            <p class="metric-value">156 MB</p>
+                        </div>
+                        <div class="metric-icon magenta"><i class='bx bx-hdd'></i></div>
+                    </article>
                 </div>
-
-                
-                <div class="table-container">
-                    <table class="products-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Producto</th>
-                                <th>Categoría</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>#1</td>
-                                <td>Set de Yoga Premium</td>
-                                <td>Conjuntos</td>
-                                <td>$89.99</td>
-                                <td>45</td>
-                                <td><span class="status-badge active">Activo</span></td>
-                                <td class="actions">
-                                    <button class="btn-action"><i class='bx bx-edit-alt'></i></button>
-                                    <button class="btn-action"><i class='bx bx-trash'></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#2</td>
-                                <td>Leggings Coloridos</td>
-                                <td>Leggings</td>
-                                <td>$54.99</td>
-                                <td>32</td>
-                                <td><span class="status-badge active">Activo</span></td>
-                                <td class="actions">
-                                    <button class="btn-action"><i class='bx bx-edit-alt'></i></button>
-                                    <button class="btn-action"><i class='bx bx-trash'></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#3</td>
-                                <td>Sports Bra Running Pro</td>
-                                <td>Tops & Bras</td>
-                                <td>$39.99</td>
-                                <td>8</td>
-                                <td><span class="status-badge low-stock">Bajo Stock</span></td>
-                                <td class="actions">
-                                    <button class="btn-action"><i class='bx bx-edit-alt'></i></button>
-                                    <button class="btn-action"><i class='bx bx-trash'></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#4</td>
-                                <td>Conjunto Deportivo Gym</td>
-                                <td>Conjuntos</td>
-                                <td class="special-price">$79.99</td>
-                                <td>0</td>
-                                <td><span class="status-badge out-of-stock">Agotado</span></td>
-                                <td class="actions">
-                                    <button class="btn-action"><i class='bx bx-edit-alt'></i></button>
-                                    <button class="btn-action"><i class='bx bx-trash'></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="products-section">
+                    <div class="products-header">
+                        <h2>Documentos Recientes</h2>
+                        <button class="btn-add"><i class='bx bx-upload'></i> Subir Archivo</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                    <th>Tamaño</th>
+                                    <th>Subido</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>catalogo-verano-2026.pdf</td>
+                                    <td>PDF</td>
+                                    <td>3.5 MB</td>
+                                    <td>Hace 2 días</td>
+                                    <td class="actions">
+                                        <button class="btn-action"><i class='bx bx-download'></i></button>
+                                        <button class="btn-action"><i class='bx bx-trash'></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <section id="section-soporte" class="admin-section" style="display: none;">
+                <header class="page-header">
+                    <h1>Centro de Soporte</h1>
+                    <p>Atiende las consultas de los clientes</p>
+                </header>
+                <div class="metrics-grid">
+                    <article class="metric-card">
+                        <div class="metric-info">
+                            <h3>Tickets Abiertos</h3>
+                            <p class="metric-value">8</p>
+                        </div>
+                        <div class="metric-icon orange"><i class='bx bx-error-circle'></i></div>
+                    </article>
+                    <article class="metric-card">
+                        <div class="metric-info">
+                            <h3>Resueltos hoy</h3>
+                            <p class="metric-value">15</p>
+                        </div>
+                        <div class="metric-icon green"><i class='bx bx-check-circle'></i></div>
+                    </article>
+                </div>
+                <div class="products-section">
+                    <div class="table-container">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuario</th>
+                                    <th>Asunto</th>
+                                    <th>Prioridad</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#TK-551</td>
+                                    <td>Juan Pérez</td>
+                                    <td>Duda sobre talla</td>
+                                    <td><span class="status-badge active">Normal</span></td>
+                                    <td><span class="status-badge low-stock">En curso</span></td>
+                                    <td class="actions">
+                                        <button class="btn-action"><i class='bx bx-message-square-detail'></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <section id="section-usuarios" class="admin-section" style="display: none;">
+                <header class="page-header">
+                    <h1>Usuarios y Permisos</h1>
+                    <p>Administra los perfiles de usuario de la plataforma</p>
+                </header>
+                <div class="products-section">
+                    <div class="table-container">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Email</th>
+                                    <th>Rol</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Admin_VidaFit</td>
+                                    <td>admin@vidafit.com</td>
+                                    <td>Administrador</td>
+                                    <td><span class="status-badge active">Activo</span></td>
+                                    <td class="actions"><button class="btn-action"><i
+                                                class='bx bx-user-check'></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <section id="section-reportes" class="admin-section" style="display: none;">
+                <header class="page-header">
+                    <h1>Reportes y Estadísticas</h1>
+                    <p>Análisis detallado del rendimiento de la tienda</p>
+                </header>
+                <div class="products-section">
+                    <p>Gráficos y reportes detallados en construcción...</p>
+                </div>
+            </section>
+            <section id="section-configuracion" class="admin-section" style="display: none;">
+                <header class="page-header">
+                    <h1>Configuración del Sistema</h1>
+                    <p>Ajustes generales de la plataforma</p>
+                </header>
+                <div class="products-section">
+                    <div class="modal-form" style="max-width: 500px;">
+                        <div class="form-group">
+                            <label>Nombre de la Tienda</label>
+                            <input type="text" value="VidaFit">
+                        </div>
+                        <div class="form-group">
+                            <label>Email de Contacto</label>
+                            <input type="email" value="contacto@vidafit.com">
+                        </div>
+                        <button class="btn-save">Guardar Cambios</button>
+                    </div>
                 </div>
             </section>
 
         </main>
-
     </div>
-
-    <div class="modal-overlay" id="add-product-modal" style="display: none;">
+    <div class="modal-overlay" id="product-modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
                 <div>
                     <h2>Agregar Nuevo Producto</h2>
                     <p>Completa la información del producto</p>
                 </div>
-                <button class="btn-close-modal"><i class='bx bx-x'></i></button>
+                <button class="btn-close-modal" id="btn-close-modal"><i class='bx bx-x'></i></button>
             </div>
-            <form class="modal-form">
+            <form class="modal-form" id="add-product-form">
                 <div class="form-group">
                     <label>Nombre del Producto</label>
-                    <input type="text" placeholder="Ej: Leggings Premium">
+                    <input type="text" id="prod-title" placeholder="Ej: Leggings Premium" required>
                 </div>
-                
                 <div class="form-row">
-                    <div class="form-group half">
-                        <label>Precio</label>
-                        <input type="number" step="0.01" placeholder="0.00">
-                    </div>
-                    <div class="form-group half">
-                        <label>Stock</label>
-                        <input type="number" placeholder="0">
+                    <div class="form-group half"><label>Precio</label><input type="number" id="prod-price" step="0.01"
+                            required></div>
+                    <div class="form-group half"><label>Stock</label><input type="number" id="prod-stock" required>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label>Categoría</label>
-                    <input type="text" placeholder="Ej: Leggings">
+                    <select id="prod-category" required
+                        style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; outline: none; margin-top: 5px;">
+                        <option value="">Selecciona una categoría</option>
+                        <option value="Balones">Balones</option>
+                        <option value="Raquetas">Raquetas</option>
+                        <option value="Accesorios">Accesorios</option>
+                        <option value="Máquinas">Máquinas</option>
+                    </select>
                 </div>
-
+                <div class="form-group">
+                    <label>Imagen del Producto</label>
+                    <input type="file" id="prod-img" accept="image/*" required
+                        style="width: 100%; padding: 10px; border: 1px dashed #e2e8f0; border-radius: 8px; margin-top: 5px;">
+                </div>
                 <button type="submit" class="btn-save">Guardar Producto</button>
             </form>
         </div>
     </div>
 
+    <script>
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.admin-section');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const targetSection = item.getAttribute('data-section');
+
+                navItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                sections.forEach(sec => {
+                    if (sec.id === `section-${targetSection}`) {
+                        sec.style.display = 'block';
+                    } else {
+                        sec.style.display = 'none';
+                    }
+                });
+            });
+        });
+        const btnOpen = document.getElementById('btn-open-modal');
+        const btnClose = document.getElementById('btn-close-modal');
+        const modal = document.getElementById('product-modal');
+
+        if (btnOpen) {
+            btnOpen.addEventListener('click', () => modal.style.display = 'flex');
+        }
+        if (btnClose) {
+            btnClose.addEventListener('click', () => modal.style.display = 'none');
+        }
+        const formAdd = document.getElementById('add-product-form');
+        if (formAdd) {
+            formAdd.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const fileInput = document.getElementById('prod-img');
+                const file = fileInput.files[0];
+
+                if (!file) {
+                    alert("Debes seleccionar una imagen");
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onloadend = async function () {
+                    const base64Img = reader.result;
+
+                    const newProduct = {
+                        title: document.getElementById('prod-title').value,
+                        price: parseFloat(document.getElementById('prod-price').value),
+                        stock: parseInt(document.getElementById('prod-stock').value),
+                        category: document.getElementById('prod-category').value,
+                        img: base64Img
+                    };
+
+                    try {
+                        const response = await fetch('http://localhost:3000/api/products', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(newProduct)
+                        });
+
+                        if (response.ok) {
+                            alert("¡Producto guardado exitosamente en la Base de Datos!");
+                            modal.style.display = 'none';
+                            window.location.reload(); // Recargar para ver el producto
+                        } else {
+                            alert("Hubo un error al guardar el producto.");
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        alert("Error de conexión con el servidor.");
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        async function loadAdminProducts() {
+            try {
+                const response = await fetch('http://localhost:3000/api/products');
+                const products = await response.json();
+                const tbody = document.getElementById('admin-products-tbody');
+
+                if (tbody) {
+                    tbody.innerHTML = products.map(p => `
+                        <tr>
+                            <td>#${p.id.toString().padStart(3, '0')}</td>
+                            <td>${p.title}</td>
+                            <td>${p.category}</td>
+                            <td>$${p.price.toFixed(2)}</td>
+                            <td>${p.stock}</td>
+                            <td>
+                                <span class="status-badge ${p.stock > 10 ? 'active' : (p.stock > 0 ? 'low-stock' : 'out-of-stock')}">
+                                    ${p.stock > 10 ? 'Activo' : (p.stock > 0 ? 'Bajo Stock' : 'Agotado')}
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <button class="btn-action"><i class='bx bx-edit-alt'></i></button>
+                                <button class="btn-action"><i class='bx bx-trash'></i></button>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error('Error al cargar productos en panel admin:', err);
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', loadAdminProducts);
+
+    </script>
 </body>
+
 </html>

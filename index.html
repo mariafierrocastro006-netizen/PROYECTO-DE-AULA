@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,128 +9,96 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-    
     <header class="navbar">
         <div class="navbar-container">
             <div class="logo">
                 <i class="fa-solid fa-dumbbell"></i>
                 <span>VidaFit</span>
             </div>
-            
             <div class="search-bar">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" placeholder="Buscar productos deportivos...">
             </div>
-
             <div class="nav-icons">
                 <a href="#"><i class="fa-regular fa-comment"></i></a>
                 <a href="#"><i class="fa-regular fa-heart"></i></a>
-                <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                <a href="#" id="cart-icon"><i class="fa-solid fa-cart-shopping"></i><span
+                        class="cart-badge">0</span></a>
                 <a href="login.html"><i class="fa-regular fa-user"></i></a>
             </div>
         </div>
     </header>
 
-    
     <main class="main-content">
-
-     
         <section class="hero">
             <h1>Nueva Colección 2026</h1>
             <p>Artículos deportivos que inspiran tu mejor versión</p>
-            <button class="btn-hero">Ver Ofertas Especiales</button>
+            <button class="btn-hero" id="btn-hero-offers">Ver Ofertas Especiales</button>
         </section>
 
-      
-        <section class="categories">
-            <button class="category-btn active">
-                <i class="fa-solid fa-border-all"></i>
-                Todo
-            </button>
-            <button class="category-btn">
-                <i class="fa-solid fa-basketball"></i>
-                Balones
-            </button>
-            <button class="category-btn">
-                <i class="fa-solid fa-table-tennis-paddle-ball"></i>
-                Raquetas
-            </button>
-            <button class="category-btn">
-                <i class="fa-solid fa-stopwatch"></i>
-                Accesorios
-            </button>
+        <section class="categories" id="categories-section">
+            <button class="category-btn active" data-filter="Todo"><i class="fa-solid fa-border-all"></i> Todo</button>
+            <button class="category-btn" data-filter="Balones"><i class="fa-solid fa-basketball"></i> Balones</button>
+            <button class="category-btn" data-filter="Raquetas"><i class="fa-solid fa-table-tennis-paddle-ball"></i>
+                Raquetas</button>
+            <button class="category-btn" data-filter="Accesorios"><i class="fa-solid fa-stopwatch"></i>
+                Accesorios</button>
+            <button class="category-btn" data-filter="Máquinas"><i class="fa-solid fa-bicycle"></i> Máquinas</button>
         </section>
 
-        
-        <section class="promo-banner">
+        <section class="promo-banner" id="promo-section">
             <div class="promo-content">
                 <span class="promo-tag"><i class="fa-solid fa-fire"></i> OFERTAS LIMITADAS</span>
                 <h2>Hasta 40% de Descuento</h2>
                 <p>En productos seleccionados. ¡No te lo pierdas!</p>
             </div>
-            <button class="btn-promo">Comprar Ahora</button>
+            <button class="btn-promo" id="btn-promo-buy">Comprar Ahora</button>
         </section>
 
-        
-        <section class="products-section">
+        <section class="products-section" id="products-section">
             <div class="section-header">
                 <h2>Todos los Productos</h2>
-                <span class="product-count">8 productos</span>
+                <span class="product-count" id="product-count">8 productos</span>
             </div>
-
-            <div class="products-grid">
-             
-                <article class="product-card">
+            <div class="products-grid" id="products-grid">
+                <article class="product-card" data-category="Balones" data-discount="true">
                     <div class="product-image">
-                        <img src="IMG/balon-de-futbol-molten-.webp" alt="Balón de Fútbol">
-                        <div class="badges">
-                            <span class="badge-new">NUEVO</span>
-                            <span class="badge-discount">-31%</span>
+                        <img src="IMG/balon-de-futbol-molten-.webp" alt="Balón">
+                        <div class="badges"><span class="badge-new">NUEVO</span><span class="badge-discount">-31%</span>
                         </div>
                         <button class="btn-fav"><i class="fa-regular fa-heart"></i></button>
                     </div>
                     <div class="product-info">
                         <span class="category-tag">Balones</span>
                         <h3 class="product-title">Balón de Fútbol Profesional Liga Elite</h3>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                            <span class="rating-number">(5.0)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">$89.99</span>
-                            <span class="old-price">$129.99</span>
-                        </div>
+                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><span class="rating-number">(5.0)</span></div>
+                        <div class="product-price"><span class="current-price">$89.99</span><span
+                                class="old-price">$129.99</span></div>
                     </div>
                 </article>
-
-               
-                <article class="product-card">
+                <article class="product-card" data-category="Raquetas" data-discount="true">
                     <div class="product-image">
-                        <img src="IMG/raqueta3.webp" alt="Raqueta de Tenis">
-                        <div class="badges">
-                            <span class="badge-new">NUEVO</span>
-                            <span class="badge-discount">-27%</span>
+                        <img src="IMG/raqueta3.webp" alt="Raqueta">
+                        <div class="badges"><span class="badge-new">NUEVO</span><span class="badge-discount">-27%</span>
                         </div>
                         <button class="btn-fav"><i class="fa-regular fa-heart"></i></button>
                     </div>
                     <div class="product-info">
                         <span class="category-tag">Raquetas</span>
                         <h3 class="product-title">Raqueta de Tenis Fibra de Carbono</h3>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                            <span class="rating-number">(5.0)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">$54.99</span>
-                            <span class="old-price">$74.99</span>
-                        </div>
+                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><span class="rating-number">(5.0)</span></div>
+                        <div class="product-price"><span class="current-price">$54.99</span><span
+                                class="old-price">$74.99</span></div>
                     </div>
                 </article>
-
-              
-                <article class="product-card">
+                <article class="product-card" data-category="Accesorios" data-discount="false">
                     <div class="product-image">
                         <img src="IMG/mancuernas de 10kg2.webp" alt="Pesas">
                         <button class="btn-fav"><i class="fa-regular fa-heart"></i></button>
@@ -137,128 +106,136 @@
                     <div class="product-info">
                         <span class="category-tag">Accesorios</span>
                         <h3 class="product-title">Set de Pesas Mancuernas 10kg</h3>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
-                            <span class="rating-number">(4.0)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">$39.99</span>
-                        </div>
+                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-regular fa-star"></i><span class="rating-number">(4.0)</span></div>
+                        <div class="product-price"><span class="current-price">$39.99</span></div>
                     </div>
                 </article>
-
-                
-                <article class="product-card">
+                <article class="product-card" data-category="Accesorios" data-discount="true">
                     <div class="product-image">
-                        <img src="IMG/guantes.jpg"Guantes de Boxeo">
-                        <div class="badges">
-                            <span class="badge-new">NUEVO</span>
-                            <span class="badge-discount">-20%</span>
+                        <img src="IMG/guantes.jpg" alt="Guantes">
+                        <div class="badges"><span class="badge-new">NUEVO</span><span class="badge-discount">-20%</span>
                         </div>
                         <button class="btn-fav"><i class="fa-regular fa-heart"></i></button>
                     </div>
                     <div class="product-info">
                         <span class="category-tag">Accesorios</span>
                         <h3 class="product-title">Guantes de Boxeo Entrenamiento Pro</h3>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                            <span class="rating-number">(5.0)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">$79.99</span>
-                            <span class="old-price">$99.99</span>
-                        </div>
+                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><span class="rating-number">(5.0)</span></div>
+                        <div class="product-price"><span class="current-price">$79.99</span><span
+                                class="old-price">$99.99</span></div>
                     </div>
                 </article>
-
-                
-                <article class="product-card">
+                <article class="product-card" data-category="Máquinas" data-discount="false">
                     <div class="product-image">
-                        <img src="IMG/estatica.webp" alt="Bicicleta Estática">
+                        <img src="IMG/estatica.webp" alt="Bicicleta">
                         <button class="btn-fav"><i class="fa-regular fa-heart"></i></button>
                     </div>
                     <div class="product-info">
                         <span class="category-tag">Máquinas</span>
                         <h3 class="product-title">Bicicleta Estática de Spinning</h3>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                            <span class="rating-number">(5.0)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">$264.99</span>
-                        </div>
+                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><span class="rating-number">(5.0)</span></div>
+                        <div class="product-price"><span class="current-price">$264.99</span></div>
                     </div>
                 </article>
-
-                
-                <article class="product-card">
+                <article class="product-card" data-category="Accesorios" data-discount="true">
                     <div class="product-image">
-                        <img src="IMG/bolsa deportiva.webp" alt="Bolsa de Deporte">
-                        <div class="badges">
-                            <span class="badge-new">NUEVO</span>
-                            <span class="badge-discount">-25%</span>
+                        <img src="IMG/bolsa deportiva.webp" alt="Bolsa">
+                        <div class="badges"><span class="badge-new">NUEVO</span><span class="badge-discount">-25%</span>
                         </div>
                         <button class="btn-fav"><i class="fa-regular fa-heart"></i></button>
                     </div>
                     <div class="product-info">
                         <span class="category-tag">Accesorios</span>
                         <h3 class="product-title">Bolsa Deportiva Impermeable</h3>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                            <span class="rating-number">(5.0)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">$119.99</span>
-                            <span class="old-price">$159.99</span>
-                        </div>
+                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><span class="rating-number">(5.0)</span></div>
+                        <div class="product-price"><span class="current-price">$119.99</span><span
+                                class="old-price">$159.99</span></div>
                     </div>
                 </article>
-
-            
-                <article class="product-card">
+                <article class="product-card" data-category="Accesorios" data-discount="false">
                     <div class="product-image">
-                        <img src="IMG/bloques de corcho.webp" alt="Bloques Yoga">
+                        <img src="IMG/bloques de corcho.webp" alt="Bloques">
                         <button class="btn-fav"><i class="fa-regular fa-heart"></i></button>
                     </div>
                     <div class="product-info">
                         <span class="category-tag">Accesorios</span>
                         <h3 class="product-title">Kit de Bloques de Yoga Corcho</h3>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
-                            <span class="rating-number">(4.0)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">$29.99</span>
-                        </div>
+                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-regular fa-star"></i><span class="rating-number">(4.0)</span></div>
+                        <div class="product-price"><span class="current-price">$29.99</span></div>
                     </div>
                 </article>
-
-                <article class="product-card">
+                <article class="product-card" data-category="Accesorios" data-discount="true">
                     <div class="product-image">
-                        <img src="IMG/cuerda.webp" alt="Cuerda de Saltar">
-                        <div class="badges">
-                            <span class="badge-new">NUEVO</span>
-                            <span class="badge-discount">-27%</span>
+                        <img src="IMG/cuerda.webp" alt="Cuerda">
+                        <div class="badges"><span class="badge-new">NUEVO</span><span class="badge-discount">-27%</span>
                         </div>
                         <button class="btn-fav"><i class="fa-regular fa-heart"></i></button>
                     </div>
                     <div class="product-info">
                         <span class="category-tag">Accesorios</span>
                         <h3 class="product-title">Cuerda de Saltar Velocidad Aluminio</h3>
-                        <div class="product-rating">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                            <span class="rating-number">(5.0)</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">$94.99</span>
-                            <span class="old-price">$129.99</span>
-                        </div>
+                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                class="fa-solid fa-star"></i><span class="rating-number">(5.0)</span></div>
+                        <div class="product-price"><span class="current-price">$94.99</span><span
+                                class="old-price">$129.99</span></div>
                     </div>
                 </article>
             </div>
         </section>
-
     </main>
 
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <aside class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Carrito de Compras</h3>
+            <button id="close-cart"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total"><span>Subtotal</span><span id="cart-subtotal">$0.00</span></div>
+            <div class="cart-total"><span>Envío</span><span class="free-shipping">GRATIS</span></div>
+            <div class="cart-total final"><span>Total</span><span id="cart-total-price">$0.00</span></div>
+            <button class="btn-checkout">Finalizar Compra</button>
+            <button class="btn-clear-cart" id="clear-cart">Vaciar Carrito</button>
+        </div>
+    </aside>
+    <div class="product-modal-overlay" id="product-modal">
+        <div class="product-modal-content">
+            <button class="close-product-modal"><i class="fa-solid fa-xmark"></i></button>
+            <div class="product-modal-grid">
+                <div class="product-modal-image"><img src="" id="modal-img" alt="Producto"><span
+                        class="modal-badge-discount" id="modal-discount"></span></div>
+                <div class="product-modal-details">
+                    <span class="modal-category" id="modal-cat"></span>
+                    <h2 id="modal-title"></h2>
+                    <div class="modal-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><span>(128 reseñas)</span></div>
+                    <div class="modal-price"><span class="modal-current-price" id="modal-price"></span><span
+                            class="modal-old-price" id="modal-old-price"></span></div>
+                    <p class="modal-description">Conjunto deportivo de alta calidad diseñado para ofrecer la mejor
+                        experiencia.</p>
+                    <div class="modal-actions">
+                        <button class="btn-add-to-cart-modal" id="modal-add-btn"><i class="fa-solid fa-cart-plus"></i>
+                            Agregar al Carrito</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
+
 </html>
