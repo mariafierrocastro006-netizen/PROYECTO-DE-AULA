@@ -182,6 +182,7 @@ const modalPrice = document.getElementById('modal-price');
 const modalOldPrice = document.getElementById('modal-old-price');
 const modalCat = document.getElementById('modal-cat');
 const modalDiscount = document.getElementById('modal-discount');
+const modalDesc = document.getElementById('modal-desc');
 const modalAddBtn = document.getElementById('modal-add-btn');
 
 function openProductModal(productId) {
@@ -195,6 +196,9 @@ function openProductModal(productId) {
     modalCat.textContent = product.category;
     modalDiscount.textContent = product.discount || "";
     modalDiscount.style.display = product.discount ? "block" : "none";
+    if (modalDesc) {
+        modalDesc.textContent = product.description || "Este producto no tiene descripción.";
+    }
 
     // Configurar botón de agregar en el modal
     modalAddBtn.onclick = () => {
@@ -304,10 +308,62 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 4. Hamburguer Menu Toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const navIcons = document.querySelector('.nav-icons');
+    if (menuToggle && navIcons) {
+        menuToggle.addEventListener('click', () => {
+            navIcons.classList.toggle('active');
+            // Opcional: Cambiar el icono
+            const icon = menuToggle.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.replace('fa-bars', 'fa-xmark');
+            } else {
+                icon.classList.replace('fa-xmark', 'fa-bars');
+            }
+        });
+    }
+
 });
 
-// --- Lógica de Login (Actualizada con Backend SQLite) ---
+// --- Lógica de Login y Registro ---
 const loginForm = document.getElementById("loginForm");
+const registerForm = document.getElementById("registerForm");
+const toggleFormBtn = document.getElementById("toggle-form-btn");
+const toggleText = document.getElementById("toggle-text");
+
+if (toggleFormBtn) {
+    toggleFormBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (loginForm.style.display !== 'none') {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            toggleText.innerHTML = '¿Ya tienes cuenta? <a href="#" id="toggle-form-btn">Inicia sesión aquí</a>';
+            // Re-vincular evento al nuevo link
+            document.getElementById("toggle-form-btn").addEventListener('click', toggleForms);
+        }
+    });
+}
+
+function toggleForms(e) {
+    e.preventDefault();
+    if (loginForm.style.display === 'none') {
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+        toggleText.innerHTML = '¿No tienes cuenta? <a href="#" id="toggle-form-btn">Regístrate aquí</a>';
+    } else {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+        toggleText.innerHTML = '¿Ya tienes cuenta? <a href="#" id="toggle-form-btn">Inicia sesión aquí</a>';
+    }
+    document.getElementById("toggle-form-btn").addEventListener('click', toggleForms);
+}
+
+if (toggleFormBtn) {
+    toggleFormBtn.removeEventListener('click', toggleForms);
+    toggleFormBtn.addEventListener('click', toggleForms);
+}
+
 if (loginForm) {
     const message = document.getElementById("message");
 
@@ -347,6 +403,50 @@ if (loginForm) {
             if (message) {
                 message.style.color = "red";
                 message.textContent = "Error de conexión con el servidor";
+            }
+        }
+    });
+}
+
+if (registerForm) {
+    const regMessage = document.getElementById("reg-message");
+
+    registerForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const email = document.getElementById("reg-email").value;
+        const password = document.getElementById("reg-password").value;
+
+        try {
+            const response = await fetch('http://localhost:3000/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                if (regMessage) {
+                    regMessage.style.color = "green";
+                    regMessage.textContent = `Registro exitoso. Redirigiendo...`;
+                }
+                localStorage.setItem("loggedIn", "true");
+                localStorage.setItem("userRole", data.user.role);
+
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            } else {
+                if (regMessage) {
+                    regMessage.style.color = "red";
+                    regMessage.textContent = data.message || "Error al registrarse";
+                }
+            }
+        } catch (error) {
+            console.error('Error de red en el registro:', error);
+            if (regMessage) {
+                regMessage.style.color = "red";
+                regMessage.textContent = "Error de conexión con el servidor";
             }
         }
     });

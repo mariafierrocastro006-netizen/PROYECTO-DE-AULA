@@ -11,6 +11,8 @@
         rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="jspdf.umd.min.js"></script>
 </head>
 
 <body>
@@ -82,6 +84,9 @@
             <!-- SECCIÓN DASHBOARD -->
             <section id="section-dashboard" class="admin-section active">
                 <header class="page-header">
+                    <button class="sidebar-toggle" id="sidebar-toggle">
+                        <i class='bx bx-menu'></i>
+                    </button>
                     <h1>Resumen General</h1>
                     <p>Bienvenido al panel de control de VidaFit</p>
                 </header>
@@ -89,7 +94,7 @@
                     <article class="metric-card">
                         <div class="metric-info">
                             <h3>Ventas Totales</h3>
-                            <p class="metric-value">$45,231</p>
+                            <p class="metric-value" id="dash-sales">$0</p>
                             <p class="metric-trend up"><i class='bx bx-trending-up'></i> +20.1%</p>
                         </div>
                         <div class="metric-icon green"><i class='bx bx-dollar'></i></div>
@@ -97,7 +102,7 @@
                     <article class="metric-card">
                         <div class="metric-info">
                             <h3>Productos Vendidos</h3>
-                            <p class="metric-value">1,234</p>
+                            <p class="metric-value" id="dash-products-sold">0</p>
                             <p class="metric-trend up"><i class='bx bx-trending-up'></i> +15.3%</p>
                         </div>
                         <div class="metric-icon magenta"><i class='bx bx-shopping-bag'></i></div>
@@ -105,7 +110,7 @@
                     <article class="metric-card">
                         <div class="metric-info">
                             <h3>Clientes Activos</h3>
-                            <p class="metric-value">892</p>
+                            <p class="metric-value" id="dash-active-customers">0</p>
                             <p class="metric-trend up"><i class='bx bx-trending-up'></i> +8.2%</p>
                         </div>
                         <div class="metric-icon orange"><i class='bx bx-user-plus'></i></div>
@@ -113,7 +118,7 @@
                     <article class="metric-card">
                         <div class="metric-info">
                             <h3>Tasa de Conversión</h3>
-                            <p class="metric-value">3.2%</p>
+                            <p class="metric-value" id="dash-conversion">0%</p>
                             <p class="metric-trend up"><i class='bx bx-trending-up'></i> +2.4%</p>
                         </div>
                         <div class="metric-icon gray"><i class='bx bx-line-chart'></i></div>
@@ -132,23 +137,8 @@
                                     <th>Acción Sugerida</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Mancuernas 10kg</td>
-                                    <td>12</td>
-                                    <td><span class="status-badge low-stock">Bajo Stock</span></td>
-                                    <td><button
-                                            style="border: none; background: #f97316; color: white; padding: 5px 10px; border-radius: 6px; cursor: pointer;">Reabastecer</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Bicicleta Estática Pro</td>
-                                    <td>0</td>
-                                    <td><span class="status-badge out-of-stock">Agotado</span></td>
-                                    <td><button
-                                            style="border: none; background: #ef4444; color: white; padding: 5px 10px; border-radius: 6px; cursor: pointer;">Contactar
-                                            Proveedor</button></td>
-                                </tr>
+                            <tbody id="dash-alerts-tbody">
+                                <!-- Alertas dinámicas -->
                             </tbody>
                         </table>
                     </div>
@@ -169,38 +159,8 @@
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#ORD-1092</td>
-                                    <td>Ana López</td>
-                                    <td>Hace 2 horas</td>
-                                    <td>$145.98</td>
-                                    <td><span class="status-badge active"
-                                            style="background: rgba(16, 185, 129, 0.1); color: #10b981;">Completado</span>
-                                    </td>
-                                    <td class="actions"><button class="btn-action"><i class='bx bx-show'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#ORD-1091</td>
-                                    <td>Carlos G.</td>
-                                    <td>Hace 5 horas</td>
-                                    <td>$89.99</td>
-                                    <td><span class="status-badge"
-                                            style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">Enviado</span>
-                                    </td>
-                                    <td class="actions"><button class="btn-action"><i class='bx bx-show'></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#ORD-1090</td>
-                                    <td>Lucía M.</td>
-                                    <td>Ayer</td>
-                                    <td>$39.99</td>
-                                    <td><span class="status-badge low-stock">Procesando</span></td>
-                                    <td class="actions"><button class="btn-action"><i class='bx bx-show'></i></button>
-                                    </td>
-                                </tr>
+                            <tbody id="dash-orders-tbody">
+                                <!-- Órdenes dinámicas -->
                             </tbody>
                         </table>
                     </div>
@@ -247,14 +207,14 @@
                     <article class="metric-card">
                         <div class="metric-info">
                             <h3>Total Archivos</h3>
-                            <p class="metric-value">42</p>
+                            <p class="metric-value" id="files-total">0</p>
                         </div>
                         <div class="metric-icon green"><i class='bx bx-file'></i></div>
                     </article>
                     <article class="metric-card">
                         <div class="metric-info">
                             <h3>Espacio</h3>
-                            <p class="metric-value">156 MB</p>
+                            <p class="metric-value" id="files-space">0 MB</p>
                         </div>
                         <div class="metric-icon magenta"><i class='bx bx-hdd'></i></div>
                     </article>
@@ -262,7 +222,8 @@
                 <div class="products-section">
                     <div class="products-header">
                         <h2>Documentos Recientes</h2>
-                        <button class="btn-add"><i class='bx bx-upload'></i> Subir Archivo</button>
+                        <input type="file" id="file-upload-input" style="display: none;" onchange="uploadFile(this)">
+                        <button class="btn-add" onclick="document.getElementById('file-upload-input').click()"><i class='bx bx-upload'></i> Subir Archivo</button>
                     </div>
                     <div class="table-container">
                         <table class="products-table">
@@ -275,17 +236,8 @@
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>catalogo-verano-2026.pdf</td>
-                                    <td>PDF</td>
-                                    <td>3.5 MB</td>
-                                    <td>Hace 2 días</td>
-                                    <td class="actions">
-                                        <button class="btn-action"><i class='bx bx-download'></i></button>
-                                        <button class="btn-action"><i class='bx bx-trash'></i></button>
-                                    </td>
-                                </tr>
+                            <tbody id="files-tbody">
+                                <!-- Archivos dinámicos -->
                             </tbody>
                         </table>
                     </div>
@@ -300,19 +252,29 @@
                     <article class="metric-card">
                         <div class="metric-info">
                             <h3>Tickets Abiertos</h3>
-                            <p class="metric-value">8</p>
+                            <p class="metric-value" id="tickets-open">0</p>
                         </div>
                         <div class="metric-icon orange"><i class='bx bx-error-circle'></i></div>
                     </article>
                     <article class="metric-card">
                         <div class="metric-info">
                             <h3>Resueltos hoy</h3>
-                            <p class="metric-value">15</p>
+                            <p class="metric-value" id="tickets-resolved">0</p>
                         </div>
                         <div class="metric-icon green"><i class='bx bx-check-circle'></i></div>
                     </article>
                 </div>
                 <div class="products-section">
+                    <div class="products-header" style="margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                        <div>
+                            <h2>Incidencias y Reportes</h2>
+                            <p>Registro de tickets activos del sistema</p>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn-add" id="btn-ticket-inventario" style="background-color: #f97316;"><i class='bx bx-package'></i> Generar Ticket Inventario</button>
+                            <button class="btn-add" id="btn-ticket-ventas" style="background-color: #10b981;"><i class='bx bx-trending-up'></i> Generar Ticket Ventas</button>
+                        </div>
+                    </div>
                     <div class="table-container">
                         <table class="products-table">
                             <thead>
@@ -325,17 +287,8 @@
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#TK-551</td>
-                                    <td>Juan Pérez</td>
-                                    <td>Duda sobre talla</td>
-                                    <td><span class="status-badge active">Normal</span></td>
-                                    <td><span class="status-badge low-stock">En curso</span></td>
-                                    <td class="actions">
-                                        <button class="btn-action"><i class='bx bx-message-square-detail'></i></button>
-                                    </td>
-                                </tr>
+                            <tbody id="tickets-tbody">
+                                <!-- Tickets dinámicos -->
                             </tbody>
                         </table>
                     </div>
@@ -358,15 +311,8 @@
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Admin_VidaFit</td>
-                                    <td>admin@vidafit.com</td>
-                                    <td>Administrador</td>
-                                    <td><span class="status-badge active">Activo</span></td>
-                                    <td class="actions"><button class="btn-action"><i
-                                                class='bx bx-user-check'></i></button></td>
-                                </tr>
+                            <tbody id="admin-users-tbody">
+                                <!-- Datos cargados dinámicamente -->
                             </tbody>
                         </table>
                     </div>
@@ -377,8 +323,48 @@
                     <h1>Reportes y Estadísticas</h1>
                     <p>Análisis detallado del rendimiento de la tienda</p>
                 </header>
-                <div class="products-section">
-                    <p>Gráficos y reportes detallados en construcción...</p>
+                <div class="metrics-grid">
+                    <article class="metric-card">
+                        <div class="metric-info">
+                            <h3>Total Usuarios</h3>
+                            <p class="metric-value" id="report-users">0</p>
+                        </div>
+                        <div class="metric-icon blue"><i class='bx bx-user'></i></div>
+                    </article>
+                    <article class="metric-card">
+                        <div class="metric-info">
+                            <h3>Total Productos</h3>
+                            <p class="metric-value" id="report-products">0</p>
+                        </div>
+                        <div class="metric-icon magenta"><i class='bx bx-closet'></i></div>
+                    </article>
+                    <article class="metric-card">
+                        <div class="metric-info">
+                            <h3>Valor Total Stock (unidades)</h3>
+                            <p class="metric-value" id="report-stock">0</p>
+                        </div>
+                        <div class="metric-icon green"><i class='bx bx-package'></i></div>
+                    </article>
+                    <article class="metric-card">
+                        <div class="metric-info">
+                            <h3>Productos Agotados</h3>
+                            <p class="metric-value" id="report-out">0</p>
+                        </div>
+                        <div class="metric-icon orange"><i class='bx bx-error'></i></div>
+                    </article>
+                </div>
+                <div class="products-section" style="margin-top: 30px;">
+                    <h2>Gráficos Detallados</h2>
+                    <div style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 300px; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                            <h3 style="text-align: center; margin-bottom: 15px;">Productos por Categoría</h3>
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                        <div style="flex: 1; min-width: 300px; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                            <h3 style="text-align: center; margin-bottom: 15px;">Stock por Categoría</h3>
+                            <canvas id="stockChart"></canvas>
+                        </div>
+                    </div>
                 </div>
             </section>
             <section id="section-configuracion" class="admin-section" style="display: none;">
@@ -417,6 +403,10 @@
                     <label>Nombre del Producto</label>
                     <input type="text" id="prod-title" placeholder="Ej: Leggings Premium" required>
                 </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea id="prod-desc" rows="3" placeholder="Añade una descripción del producto..." style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; outline: none; margin-top: 5px;"></textarea>
+                </div>
                 <div class="form-row">
                     <div class="form-group half"><label>Precio</label><input type="number" id="prod-price" step="0.01"
                             required></div>
@@ -436,10 +426,43 @@
                 </div>
                 <div class="form-group">
                     <label>Imagen del Producto</label>
-                    <input type="file" id="prod-img" accept="image/*" required
+                    <input type="file" id="prod-img" accept="image/*"
                         style="width: 100%; padding: 10px; border: 1px dashed #e2e8f0; border-radius: 8px; margin-top: 5px;">
+                    <small id="img-help" style="color: #666; display: block; margin-top: 5px;">Opcional al editar. Si no subes nada, se mantendrá la imagen actual.</small>
                 </div>
                 <button type="submit" class="btn-save">Guardar Producto</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL PARA CREACIÓN DE TICKETS -->
+    <div class="modal-overlay" id="ticket-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2 id="ticket-modal-title">Generar Ticket de Soporte</h2>
+                    <p id="ticket-modal-subtitle">Completa la información del ticket</p>
+                </div>
+                <button class="btn-close-modal" id="btn-close-ticket-modal"><i class='bx bx-x'></i></button>
+            </div>
+            <form class="modal-form" id="create-ticket-form">
+                <div class="form-group">
+                    <label>Usuario / Emisor</label>
+                    <input type="text" id="ticket-user" required>
+                </div>
+                <div class="form-group">
+                    <label>Asunto / Detalles del Ticket</label>
+                    <textarea id="ticket-subject" rows="6" required style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; outline: none; margin-top: 5px; font-family: inherit; resize: vertical; font-size: 13px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Prioridad</label>
+                    <select id="ticket-priority" required style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; outline: none; margin-top: 5px;">
+                        <option value="Normal">Normal</option>
+                        <option value="Alta">Alta</option>
+                        <option value="Urgente">Urgente</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-save">Generar Ticket</button>
             </form>
         </div>
     </div>
@@ -447,6 +470,14 @@
     <script>
         const navItems = document.querySelectorAll('.nav-item');
         const sections = document.querySelectorAll('.admin-section');
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+        }
 
         navItems.forEach(item => {
             item.addEventListener('click', () => {
@@ -457,8 +488,10 @@
                 sections.forEach(sec => {
                     if (sec.id === `section-${targetSection}`) {
                         sec.style.display = 'block';
+                        sec.classList.add('active');
                     } else {
                         sec.style.display = 'none';
+                        sec.classList.remove('active');
                     }
                 });
             });
@@ -466,12 +499,22 @@
         const btnOpen = document.getElementById('btn-open-modal');
         const btnClose = document.getElementById('btn-close-modal');
         const modal = document.getElementById('product-modal');
+        let editingProductId = null;
 
         if (btnOpen) {
-            btnOpen.addEventListener('click', () => modal.style.display = 'flex');
+            btnOpen.addEventListener('click', () => {
+                editingProductId = null;
+                document.getElementById('add-product-form').reset();
+                document.querySelector('.modal-header h2').textContent = "Nuevo Producto";
+                document.getElementById('prod-img').required = true;
+                modal.style.display = 'flex';
+            });
         }
         if (btnClose) {
-            btnClose.addEventListener('click', () => modal.style.display = 'none');
+            btnClose.addEventListener('click', () => {
+                modal.style.display = 'none';
+                editingProductId = null;
+            });
         }
         const formAdd = document.getElementById('add-product-form');
         if (formAdd) {
@@ -481,53 +524,64 @@
                 const fileInput = document.getElementById('prod-img');
                 const file = fileInput.files[0];
 
-                if (!file) {
-                    alert("Debes seleccionar una imagen");
+                if (!editingProductId && !file) {
+                    alert("Debes seleccionar una imagen para un producto nuevo.");
                     return;
                 }
 
-                const reader = new FileReader();
-                reader.onloadend = async function () {
-                    const base64Img = reader.result;
+                const productData = {
+                    title: document.getElementById('prod-title').value,
+                    description: document.getElementById('prod-desc').value,
+                    price: parseFloat(document.getElementById('prod-price').value),
+                    stock: parseInt(document.getElementById('prod-stock').value),
+                    category: document.getElementById('prod-category').value
+                };
 
-                    const newProduct = {
-                        title: document.getElementById('prod-title').value,
-                        price: parseFloat(document.getElementById('prod-price').value),
-                        stock: parseInt(document.getElementById('prod-stock').value),
-                        category: document.getElementById('prod-category').value,
-                        img: base64Img
-                    };
-
+                const saveToDB = async (data) => {
                     try {
-                        const response = await fetch('http://localhost:3000/api/products', {
-                            method: 'POST',
+                        const url = editingProductId ? `http://localhost:3000/api/products/${editingProductId}` : 'http://localhost:3000/api/products';
+                        const method = editingProductId ? 'PUT' : 'POST';
+                        
+                        const response = await fetch(url, {
+                            method: method,
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(newProduct)
+                            body: JSON.stringify(data)
                         });
 
                         if (response.ok) {
-                            alert("¡Producto guardado exitosamente en la Base de Datos!");
+                            alert(editingProductId ? "Producto actualizado." : "Producto creado.");
                             modal.style.display = 'none';
-                            window.location.reload(); // Recargar para ver el producto
+                            editingProductId = null;
+                            loadAdminProducts(); // Recargar tabla
                         } else {
-                            alert("Hubo un error al guardar el producto.");
+                            alert("Hubo un error al guardar.");
                         }
                     } catch (err) {
                         console.error(err);
                         alert("Error de conexión con el servidor.");
                     }
                 };
-                reader.readAsDataURL(file);
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        productData.img = reader.result;
+                        saveToDB(productData);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    saveToDB(productData);
+                }
             });
         }
         async function loadAdminProducts() {
             try {
                 const response = await fetch('http://localhost:3000/api/products');
-                const products = await response.json();
+                window.adminProductsList = await response.json(); // Save globally for editing
                 const tbody = document.getElementById('admin-products-tbody');
 
                 if (tbody) {
-                    tbody.innerHTML = products.map(p => `
+                    tbody.innerHTML = window.adminProductsList.map(p => `
                         <tr>
                             <td>#${p.id.toString().padStart(3, '0')}</td>
                             <td>${p.title}</td>
@@ -540,8 +594,8 @@
                                 </span>
                             </td>
                             <td class="actions">
-                                <button class="btn-action"><i class='bx bx-edit-alt'></i></button>
-                                <button class="btn-action"><i class='bx bx-trash'></i></button>
+                                <button class="btn-action" onclick="editProduct(${p.id})"><i class='bx bx-edit-alt'></i></button>
+                                <button class="btn-action" onclick="deleteProduct(${p.id})"><i class='bx bx-trash'></i></button>
                             </td>
                         </tr>
                     `).join('');
@@ -551,8 +605,527 @@
             }
         }
 
+        async function deleteProduct(id) {
+            if (confirm("¿Estás seguro de que quieres eliminar este producto de forma permanente?")) {
+                try {
+                    const res = await fetch(`http://localhost:3000/api/products/${id}`, { method: 'DELETE' });
+                    if (res.ok) {
+                        loadAdminProducts();
+                        loadReportsData();
+                    } else {
+                        alert("Error al eliminar el producto");
+                    }
+                } catch (err) {
+                    console.error("Error eliminando:", err);
+                }
+            }
+        }
 
-        document.addEventListener('DOMContentLoaded', loadAdminProducts);
+        async function loadAdminUsers() {
+            try {
+                const response = await fetch('http://localhost:3000/api/users');
+                const users = await response.json();
+                const tbody = document.getElementById('admin-users-tbody');
+
+                if (tbody) {
+                    tbody.innerHTML = users.map(u => `
+                        <tr>
+                            <td>Usuario #${u.id}</td>
+                            <td>${u.email}</td>
+                            <td>${u.role === 'admin' ? 'Administrador' : 'Cliente'}</td>
+                            <td><span class="status-badge active">Activo</span></td>
+                            <td class="actions"><button class="btn-action"><i class='bx bx-user-check'></i></button></td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error('Error al cargar usuarios:', err);
+            }
+        }
+
+        function editProduct(id) {
+            const product = window.adminProductsList.find(p => p.id === id);
+            if (!product) return;
+
+            editingProductId = id;
+            document.querySelector('.modal-header h2').textContent = "Editar Producto";
+            document.getElementById('prod-title').value = product.title;
+            document.getElementById('prod-desc').value = product.description || '';
+            document.getElementById('prod-price').value = product.price;
+            document.getElementById('prod-stock').value = product.stock;
+            document.getElementById('prod-category').value = product.category;
+            
+            // Imagen no requerida al editar
+            document.getElementById('prod-img').required = false;
+
+            modal.style.display = 'flex';
+        }
+
+        let categoryChartInstance = null;
+        let stockChartInstance = null;
+
+        function renderCharts(categoryData) {
+            if (!categoryData || categoryData.length === 0) return;
+
+            const labels = categoryData.map(d => d.category);
+            const countData = categoryData.map(d => d.count);
+            const stockData = categoryData.map(d => d.stock_count);
+
+            const colors = ['#f43f5e', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'];
+
+            if (categoryChartInstance) categoryChartInstance.destroy();
+            const ctxCategory = document.getElementById('categoryChart').getContext('2d');
+            categoryChartInstance = new Chart(ctxCategory, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: countData,
+                        backgroundColor: colors
+                    }]
+                },
+                options: { responsive: true }
+            });
+
+            if (stockChartInstance) stockChartInstance.destroy();
+            const ctxStock = document.getElementById('stockChart').getContext('2d');
+            stockChartInstance = new Chart(ctxStock, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Unidades en Stock',
+                        data: stockData,
+                        backgroundColor: '#10b981'
+                    }]
+                },
+                options: { responsive: true, scales: { y: { beginAtZero: true } } }
+            });
+        }
+
+
+        async function loadReportsData() {
+            try {
+                const response = await fetch('http://localhost:3000/api/reports');
+                const data = await response.json();
+                
+                document.getElementById('report-users').textContent = data.totalUsers;
+                document.getElementById('report-products').textContent = data.totalProducts;
+                document.getElementById('report-stock').textContent = data.totalStock;
+                document.getElementById('report-out').textContent = data.outOfStock;
+
+                if (data.categoryData) {
+                    renderCharts(data.categoryData);
+                }
+            } catch (err) {
+                console.error('Error al cargar reportes:', err);
+            }
+        }
+
+        // --- FUNCIONES DE ARCHIVOS ---
+        async function loadFiles() {
+            try {
+                const res = await fetch('http://localhost:3000/api/files');
+                const data = await res.json();
+                document.getElementById('files-total').textContent = data.totalFiles;
+                document.getElementById('files-space').textContent = data.totalSpaceMB + ' MB';
+                
+                const tbody = document.getElementById('files-tbody');
+                if (tbody) {
+                    tbody.innerHTML = data.files.map(f => `
+                        <tr>
+                            <td>${f.name}</td>
+                            <td>${f.type}</td>
+                            <td>${f.size}</td>
+                            <td>${new Date(f.uploadedAt).toLocaleDateString()}</td>
+                            <td class="actions">
+                                <a href="http://localhost:3000/uploads/${f.name}" target="_blank" class="btn-action" style="display:inline-flex; align-items:center; justify-content:center; text-decoration:none; color:inherit;"><i class='bx bx-download'></i></a>
+                                <button class="btn-action" onclick="deleteFile('${f.name}')"><i class='bx bx-trash'></i></button>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error('Error cargando archivos:', err);
+            }
+        }
+
+        async function uploadFile(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const res = await fetch('http://localhost:3000/api/files', {
+                    method: 'POST',
+                    body: formData
+                });
+                if (res.ok) {
+                    alert("Archivo subido exitosamente");
+                    loadFiles();
+                } else {
+                    alert("Error al subir archivo");
+                }
+            } catch (err) {
+                console.error("Error subiendo:", err);
+            }
+            input.value = ''; // Reset input
+        }
+
+        async function deleteFile(filename) {
+            if (confirm(`¿Eliminar ${filename}?`)) {
+                try {
+                    const res = await fetch(`http://localhost:3000/api/files/${filename}`, { method: 'DELETE' });
+                    if (res.ok) {
+                        loadFiles();
+                    } else {
+                        alert("Error eliminando archivo");
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        }
+
+        // --- FUNCIONES DE SOPORTE (TICKETS) ---
+        async function loadTickets() {
+            try {
+                const res = await fetch('http://localhost:3000/api/tickets');
+                const data = await res.json();
+                window.ticketsList = data.tickets; // Guardar tickets globalmente para PDF
+                document.getElementById('tickets-open').textContent = data.openTickets;
+                document.getElementById('tickets-resolved').textContent = data.resolvedToday;
+
+                const tbody = document.getElementById('tickets-tbody');
+                if (tbody) {
+                    tbody.innerHTML = data.tickets.map(t => `
+                        <tr>
+                            <td>#TK-${t.id}</td>
+                            <td>${t.user_name}</td>
+                            <td>${t.subject}</td>
+                            <td><span class="status-badge ${t.priority === 'Urgente' ? 'out-of-stock' : (t.priority === 'Alta' ? 'low-stock' : 'active')}">${t.priority}</span></td>
+                            <td><span class="status-badge ${t.status === 'Resuelto' ? 'active' : 'low-stock'}">${t.status}</span></td>
+                            <td class="actions" style="align-items: center;">
+                                ${t.status === 'En curso' ? `<button class="btn-action" title="Marcar como resuelto" onclick="resolveTicket(${t.id})"><i class='bx bx-check-circle'></i></button>` : `<span style="color:#10b981; margin-right: 5px;"><i class='bx bx-check'></i></span>`}
+                                <button class="btn-action" title="Descargar PDF" onclick="downloadTicketPDF(${t.id})"><i class='bx bxs-file-pdf' style="color: #ef4444; font-size: 20px;"></i></button>
+                                <button class="btn-action" title="Eliminar Ticket" style="background:none;border:none;cursor:pointer;" onclick="eliminarTicket('${t.id}')"><i class='bx bx-trash' style="color: #ef4444; font-size: 20px;"></i></button>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error('Error cargando tickets:', err);
+            }
+        }
+
+        async function resolveTicket(id) {
+            if (confirm("¿Marcar ticket como resuelto?")) {
+                try {
+                    const res = await fetch(`http://localhost:3000/api/tickets/${id}/resolve`, { method: 'PUT' });
+                    if (res.ok) {
+                        alert("Ticket marcado como resuelto con éxito.");
+                        loadTickets();
+                    } else {
+                        alert("Error al resolver el ticket en el servidor.");
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("Error de conexión al resolver el ticket.");
+                }
+            }
+        }
+
+        // Función alternativa de eliminación via XMLHttpRequest (mayor compatibilidad)
+        function eliminarTicket(id) {
+            if (!confirm('¿Eliminar este ticket permanentemente?')) return;
+            var xhr = new XMLHttpRequest();
+            xhr.open('DELETE', 'http://localhost:3000/api/tickets/' + id, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        alert('Ticket eliminado correctamente.');
+                        loadTickets();
+                    } else {
+                        alert('No se pudo eliminar el ticket. Código: ' + xhr.status);
+                    }
+                }
+            };
+            xhr.onerror = function() {
+                alert('Error de red al intentar eliminar el ticket.');
+            };
+            xhr.send();
+        }
+
+        // --- GESTIÓN DE TICKETS Y GENERACIÓN DE PDF ---
+        function downloadTicketPDF(id) {
+            const ticket = window.ticketsList.find(t => t.id == id);
+            if (!ticket) {
+                alert("Error: No se encontró el ticket en la lista actual.");
+                return;
+            }
+
+            const jsPDFClass = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : (window.jsPDF || null);
+            if (!jsPDFClass) {
+                alert("Error: La librería jsPDF no se ha cargado correctamente en este navegador.");
+                return;
+            }
+            const doc = new jsPDFClass({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            // Colores corporativos
+            const primaryColor = [163, 21, 69]; // #a31545
+            const secondaryColor = [33, 28, 28]; // #211c1c
+            const lightGray = [244, 246, 248];
+
+            // Cabecera corporativa
+            doc.setFillColor(...primaryColor);
+            doc.rect(0, 0, 210, 40, 'F');
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFont('Helvetica', 'bold');
+            doc.setFontSize(22);
+            doc.text("VidaFit - Reporte de Soporte", 15, 18);
+            
+            doc.setFont('Helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.text("Panel de Administración - Centro de Soporte", 15, 26);
+            doc.text(`Fecha de Emisión: ${new Date().toLocaleString()}`, 15, 32);
+
+            // Datos del Reporte
+            doc.setTextColor(...secondaryColor);
+            doc.setFontSize(15);
+            doc.setFont('Helvetica', 'bold');
+            doc.text(`TICKET DE SOPORTE #${ticket.id.toString().padStart(4, '0')}`, 15, 55);
+
+            // Línea decorativa
+            doc.setDrawColor(...primaryColor);
+            doc.setLineWidth(0.8);
+            doc.line(15, 58, 195, 58);
+
+            // Panel informativo
+            doc.setFillColor(...lightGray);
+            doc.rect(15, 65, 180, 48, 'F');
+            doc.setDrawColor(220, 225, 230);
+            doc.setLineWidth(0.3);
+            doc.rect(15, 65, 180, 48, 'D');
+
+            doc.setFontSize(11);
+            
+            doc.setFont('Helvetica', 'bold');
+            doc.text("Emisor / Reportado por:", 20, 73);
+            doc.setFont('Helvetica', 'normal');
+            doc.text(ticket.user_name, 75, 73);
+
+            doc.setFont('Helvetica', 'bold');
+            doc.text("Fecha del Reporte:", 20, 81);
+            doc.setFont('Helvetica', 'normal');
+            doc.text(new Date(ticket.created_at).toLocaleString(), 75, 81);
+
+            doc.setFont('Helvetica', 'bold');
+            doc.text("Prioridad:", 20, 89);
+            doc.setFont('Helvetica', 'bold');
+            if (ticket.priority === 'Urgente') {
+                doc.setTextColor(239, 68, 68);
+            } else if (ticket.priority === 'Alta') {
+                doc.setTextColor(249, 115, 22);
+            } else {
+                doc.setTextColor(10, 185, 121);
+            }
+            doc.text(ticket.priority, 75, 89);
+            doc.setTextColor(...secondaryColor);
+
+            doc.setFont('Helvetica', 'bold');
+            doc.text("Estado Actual:", 20, 97);
+            doc.setFont('Helvetica', 'normal');
+            doc.text(ticket.status, 75, 97);
+
+            // Asunto / Descripción
+            doc.setFont('Helvetica', 'bold');
+            doc.setFontSize(13);
+            doc.text("Detalle del Asunto:", 15, 125);
+            
+            doc.setFont('Helvetica', 'normal');
+            doc.setFontSize(11);
+            
+            const splitSubject = doc.splitTextToSize(ticket.subject, 180);
+            doc.text(splitSubject, 15, 133);
+
+            // Pie de página
+            doc.setFont('Helvetica', 'italic');
+            doc.setFontSize(9);
+            doc.setTextColor(120, 120, 120);
+            doc.text("Este es un documento oficial de VidaFit generado digitalmente.", 15, 280);
+
+            doc.save(`ticket_soporte_${ticket.id}.pdf`);
+        }
+
+        const ticketModal = document.getElementById('ticket-modal');
+        const btnCloseTicketModal = document.getElementById('btn-close-ticket-modal');
+        const createTicketForm = document.getElementById('create-ticket-form');
+        const btnTicketInventario = document.getElementById('btn-ticket-inventario');
+        const btnTicketVentas = document.getElementById('btn-ticket-ventas');
+
+        if (btnCloseTicketModal) {
+            btnCloseTicketModal.addEventListener('click', () => {
+                ticketModal.style.display = 'none';
+            });
+        }
+
+        if (btnTicketInventario) {
+            btnTicketInventario.addEventListener('click', async () => {
+                document.getElementById('ticket-modal-title').textContent = "Generar Ticket de Inventario";
+                document.getElementById('ticket-user').value = "Admin de Inventario";
+                document.getElementById('ticket-priority').value = "Alta";
+
+                let subjectText = "Revisión y Reabastecimiento de Inventario:\n\n";
+                try {
+                    const res = await fetch('http://localhost:3000/api/products');
+                    const products = await res.json();
+                    const lowStock = products.filter(p => p.stock <= 10);
+                    if (lowStock.length > 0) {
+                        subjectText += "Se han detectado productos con bajo stock en almacén:\n" + 
+                            lowStock.map(p => `- ${p.title} (Stock: ${p.stock} uds.)`).join('\n');
+                      } else {
+                          subjectText += "Todas las existencias están en niveles óptimos (ningún producto tiene stock menor a 10 uds.).";
+                      }
+                  } catch (err) {
+                      console.error("Error cargando productos para ticket:", err);
+                      subjectText += "Error al cargar el estado actual del inventario.";
+                  }
+                  document.getElementById('ticket-subject').value = subjectText;
+                  ticketModal.style.display = 'flex';
+              });
+          }
+
+          if (btnTicketVentas) {
+              btnTicketVentas.addEventListener('click', () => {
+                  document.getElementById('ticket-modal-title').textContent = "Generar Ticket de Ventas";
+                  document.getElementById('ticket-user').value = "Admin de Ventas";
+                  document.getElementById('ticket-priority').value = "Normal";
+
+                  const salesText = document.getElementById('dash-sales') ? document.getElementById('dash-sales').textContent : "$0";
+                  const productsText = document.getElementById('dash-products-sold') ? document.getElementById('dash-products-sold').textContent : "0";
+
+                  let subjectText = `Reporte de Ventas y Facturación:\n\n`;
+                  subjectText += `Resumen actual de ventas en panel:\n`;
+                  subjectText += `- Ventas Totales Acumuladas: ${salesText}\n`;
+                  subjectText += `- Productos Vendidos (Simulado): ${productsText} unidades\n\n`;
+                  subjectText += `Se solicita conciliación y revisión de facturación diaria para validar el cuadre de caja.`;
+
+                  document.getElementById('ticket-subject').value = subjectText;
+                  ticketModal.style.display = 'flex';
+              });
+          }
+
+          if (createTicketForm) {
+              createTicketForm.addEventListener('submit', async (e) => {
+                  e.preventDefault();
+
+                  const userName = document.getElementById('ticket-user').value;
+                  const subject = document.getElementById('ticket-subject').value;
+                  const priority = document.getElementById('ticket-priority').value;
+
+                  try {
+                      const response = await fetch('http://localhost:3000/api/tickets', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                              user_name: userName,
+                              subject: subject,
+                              priority: priority
+                          })
+                      });
+
+                      if (response.ok) {
+                          alert("Ticket generado exitosamente.");
+                          ticketModal.style.display = 'none';
+                          loadTickets();
+                      } else {
+                          alert("Hubo un error al generar el ticket.");
+                      }
+                  } catch (err) {
+                      console.error(err);
+                      alert("Error de conexión con el servidor.");
+                  }
+              });
+          }
+
+        // --- FUNCIONES DEL DASHBOARD PRINCIPAL ---
+        async function loadDashboardHome() {
+            try {
+                const res = await fetch('http://localhost:3000/api/dashboard-summary');
+                const data = await res.json();
+                document.getElementById('dash-sales').textContent = `$${data.totalSales.toFixed(2)}`;
+                document.getElementById('dash-products-sold').textContent = data.productsSold;
+                document.getElementById('dash-active-customers').textContent = data.activeCustomers;
+                document.getElementById('dash-conversion').textContent = data.conversionRate;
+            } catch (err) {
+                console.error('Error cargando resumen dashboard:', err);
+            }
+        }
+
+        async function loadInventoryAlerts() {
+            try {
+                const res = await fetch('http://localhost:3000/api/products');
+                const products = await res.json();
+                const alerts = products.filter(p => p.stock <= 10);
+                const tbody = document.getElementById('dash-alerts-tbody');
+                if (tbody) {
+                    tbody.innerHTML = alerts.map(p => `
+                        <tr>
+                            <td>${p.title}</td>
+                            <td>${p.stock}</td>
+                            <td><span class="status-badge ${p.stock === 0 ? 'out-of-stock' : 'low-stock'}">${p.stock === 0 ? 'Agotado' : 'Bajo Stock'}</span></td>
+                            <td>
+                                <button onclick="alert('Contactando proveedor para ${p.title}...');" style="border: none; background: ${p.stock === 0 ? '#ef4444' : '#f97316'}; color: white; padding: 5px 10px; border-radius: 6px; cursor: pointer;">
+                                    ${p.stock === 0 ? 'Contactar Proveedor' : 'Reabastecer'}
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error('Error cargando alertas:', err);
+            }
+        }
+
+        async function loadRecentOrders() {
+            try {
+                const res = await fetch('http://localhost:3000/api/orders');
+                const orders = await res.json();
+                const tbody = document.getElementById('dash-orders-tbody');
+                if (tbody) {
+                    tbody.innerHTML = orders.map(o => `
+                        <tr>
+                            <td>${o.order_id}</td>
+                            <td>${o.customer_name}</td>
+                            <td>${new Date(o.created_at).toLocaleDateString()}</td>
+                            <td>$${o.total.toFixed(2)}</td>
+                            <td><span class="status-badge ${o.status === 'Completado' ? 'active' : (o.status === 'Enviado' ? 'low-stock' : 'out-of-stock')}">${o.status}</span></td>
+                            <td class="actions"><button class="btn-action" onclick="alert('Detalles del pedido ${o.order_id}');"><i class='bx bx-show'></i></button></td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error('Error cargando órdenes:', err);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAdminProducts();
+            loadReportsData();
+            loadAdminUsers();
+            loadFiles();
+            loadTickets();
+            loadDashboardHome();
+            loadInventoryAlerts();
+            loadRecentOrders();
+        });
 
     </script>
 </body>
