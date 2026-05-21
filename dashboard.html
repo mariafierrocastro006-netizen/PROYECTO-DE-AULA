@@ -1094,6 +1094,33 @@
             }
         }
 
+        async function showOrderDetails(orderId) {
+            try {
+                const res = await fetch(`http://localhost:3000/api/orders/${encodeURIComponent(orderId)}/items`);
+                const items = await res.json();
+                
+                if (items.length === 0) {
+                    alert(`El pedido ${orderId} no tiene productos registrados o no existe.`);
+                    return;
+                }
+
+                let detailsText = `📦 Detalles del Pedido ${orderId}\n\n`;
+                items.forEach((item, index) => {
+                    detailsText += `${index + 1}. ${item.product_title}\n`;
+                    detailsText += `   Cantidad: ${item.quantity} | Precio Unitario: $${item.price.toFixed(2)}\n`;
+                    detailsText += `   Subtotal: $${(item.quantity * item.price).toFixed(2)}\n\n`;
+                });
+
+                const total = items.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+                detailsText += `💵 Total del Pedido: $${total.toFixed(2)}`;
+
+                alert(detailsText);
+            } catch (err) {
+                console.error('Error al cargar detalles del pedido:', err);
+                alert('❌ Error al cargar los detalles del pedido.');
+            }
+        }
+
         async function loadRecentOrders() {
             try {
                 const res = await fetch('http://localhost:3000/api/orders');
@@ -1107,7 +1134,7 @@
                             <td>${new Date(o.created_at).toLocaleDateString()}</td>
                             <td>$${o.total.toFixed(2)}</td>
                             <td><span class="status-badge ${o.status === 'Completado' ? 'active' : (o.status === 'Enviado' ? 'low-stock' : 'out-of-stock')}">${o.status}</span></td>
-                            <td class="actions"><button class="btn-action" onclick="alert('Detalles del pedido ${o.order_id}');"><i class='bx bx-show'></i></button></td>
+                            <td class="actions"><button class="btn-action" onclick="showOrderDetails('${o.order_id}');"><i class='bx bx-show'></i></button></td>
                         </tr>
                     `).join('');
                 }

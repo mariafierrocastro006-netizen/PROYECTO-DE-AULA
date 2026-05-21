@@ -142,9 +142,10 @@ async function initDB() {
             console.log("🎧 Tickets de prueba creados.");
         }
 
-        // 4. Crear Tabla de Órdenes (Pedidos)
+        // 4. Crear Tabla de Historial de Ventas (Pedidos)
+        await db.query("DROP TABLE IF EXISTS orders");
         await db.query(`
-            CREATE TABLE IF NOT EXISTS orders (
+            CREATE TABLE IF NOT EXISTS historial_ventas (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 order_id VARCHAR(50) UNIQUE NOT NULL,
                 customer_name VARCHAR(255) NOT NULL,
@@ -154,12 +155,38 @@ async function initDB() {
             )
         `);
 
-        const [orderCount] = await db.query("SELECT COUNT(*) AS count FROM orders");
+        // 5. Crear Tabla de Detalles de Ventas (Productos Comprados)
+        await db.query(`
+            CREATE TABLE IF NOT EXISTS detalles_ventas (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                sale_id VARCHAR(50) NOT NULL,
+                product_id INT NOT NULL,
+                product_title VARCHAR(255) NOT NULL,
+                quantity INT NOT NULL,
+                price DOUBLE NOT NULL,
+                FOREIGN KEY (sale_id) REFERENCES historial_ventas(order_id) ON DELETE CASCADE
+            )
+        `);
+
+        const [orderCount] = await db.query("SELECT COUNT(*) AS count FROM historial_ventas");
         if (orderCount[0].count === 0) {
-            await db.query("INSERT INTO orders (order_id, customer_name, total, status) VALUES (?, ?, ?, ?)", ["#ORD-1092", "Ana López", 145.98, "Completado"]);
-            await db.query("INSERT INTO orders (order_id, customer_name, total, status) VALUES (?, ?, ?, ?)", ["#ORD-1091", "Carlos G.", 89.99, "Enviado"]);
-            await db.query("INSERT INTO orders (order_id, customer_name, total, status) VALUES (?, ?, ?, ?)", ["#ORD-1090", "Lucía M.", 39.99, "Procesando"]);
-            console.log("🛍️ Órdenes de prueba creadas.");
+            // Insertar ventas de prueba
+            await db.query("INSERT INTO historial_ventas (order_id, customer_name, total, status) VALUES (?, ?, ?, ?)", ["#ORD-1092", "Ana López", 144.98, "Completado"]);
+            await db.query("INSERT INTO historial_ventas (order_id, customer_name, total, status) VALUES (?, ?, ?, ?)", ["#ORD-1091", "Carlos G.", 89.99, "Enviado"]);
+            await db.query("INSERT INTO historial_ventas (order_id, customer_name, total, status) VALUES (?, ?, ?, ?)", ["#ORD-1090", "Lucía M.", 39.99, "Procesando"]);
+
+            // Insertar detalles de prueba
+            // #ORD-1092: Balón (ID 1) y Raqueta (ID 2)
+            await db.query("INSERT INTO detalles_ventas (sale_id, product_id, product_title, quantity, price) VALUES (?, ?, ?, ?, ?)", ["#ORD-1092", 1, "Balón de Fútbol Profesional Liga Elite", 1, 89.99]);
+            await db.query("INSERT INTO detalles_ventas (sale_id, product_id, product_title, quantity, price) VALUES (?, ?, ?, ?, ?)", ["#ORD-1092", 2, "Raqueta de Tenis Fibra de Carbono", 1, 54.99]);
+
+            // #ORD-1091: Balón (ID 1)
+            await db.query("INSERT INTO detalles_ventas (sale_id, product_id, product_title, quantity, price) VALUES (?, ?, ?, ?, ?)", ["#ORD-1091", 1, "Balón de Fútbol Profesional Liga Elite", 1, 89.99]);
+
+            // #ORD-1090: Set de Pesas (ID 3)
+            await db.query("INSERT INTO detalles_ventas (sale_id, product_id, product_title, quantity, price) VALUES (?, ?, ?, ?, ?)", ["#ORD-1090", 3, "Set de Pesas Mancuernas 10kg", 1, 39.99]);
+
+            console.log("🛍️ Ventas e historial de detalles de prueba creados.");
         }
 
     } catch (err) {
@@ -405,13 +432,13 @@ app.delete('/api/tickets/:id', async (req, res) => {
 // 8. Dashboard Principal (Resumen y Órdenes)
 app.get('/api/dashboard-summary', async (req, res) => {
     try {
-        const [sales] = await db.query("SELECT SUM(total) as total_sales FROM orders WHERE status != 'Cancelado'");
-        const [productsSold] = await db.query("SELECT COUNT(*) as count FROM orders"); // Aproximación
+        const [sales] = await db.query("SELECT SUM(total) as total_sales FROM historial_ventas WHERE status != 'Cancelado'");
+        const [productsSold] = await db.query("SELECT SUM(quantity) as count FROM detalles_ventas");
         const [activeCustomers] = await db.query("SELECT COUNT(*) as count FROM users WHERE role = 'customer'");
         
         res.json({
             totalSales: sales[0].total_sales || 0,
-            productsSold: productsSold[0].count * 3, // Simulación de items por orden
+            productsSold: productsSold[0].count || 0,
             activeCustomers: activeCustomers[0].count,
             conversionRate: "3.4%"
         });
@@ -422,12 +449,113 @@ app.get('/api/dashboard-summary', async (req, res) => {
 
 app.get('/api/orders', async (req, res) => {
     try {
-        const [orders] = await db.query("SELECT * FROM orders ORDER BY created_at DESC LIMIT 5");
+        const [orders] = await db.query("SELECT * FROM historial_ventas ORDER BY created_at DESC LIMIT 5");
         res.json(orders);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
+
+// Obtener los productos de una venta específica
+app.get('/api/orders/:orderId/items', async (req, res) => {
+    try {
+        const [items] = await db.query("SELECT * FROM detalles_ventas WHERE sale_id = ?", [req.params.orderId]);
+        res.json(items);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// 9. Procesar Checkout (Finalizar Compra)
+app.post('/api/checkout', async (req, res) => {
+    const { cart, customerName } = req.body;
+
+    if (!cart || !Array.isArray(cart) || cart.length === 0) {
+        return res.status(400).json({ success: false, message: "El carrito está vacío." });
+    }
+
+    const name = customerName || "Cliente Invitado";
+    let connection;
+
+    try {
+        // Obtener conexión y comenzar transacción
+        connection = await db.getConnection();
+        await connection.beginTransaction();
+
+        let total = 0;
+        const itemsToInsert = [];
+
+        for (const item of cart) {
+            // Consultar el producto actual bloqueando la fila para evitar race conditions
+            const [rows] = await connection.query("SELECT id, title, price, stock FROM products WHERE id = ? FOR UPDATE", [item.id]);
+            
+            if (rows.length === 0) {
+                throw new Error(`El producto con ID ${item.id} no existe.`);
+            }
+
+            const product = rows[0];
+
+            if (product.stock < item.qty) {
+                throw new Error(`El producto "${product.title}" no tiene suficiente stock. Stock disponible: ${product.stock}, solicitado: ${item.qty}`);
+            }
+
+            // Restar stock en la base de datos
+            await connection.query("UPDATE products SET stock = stock - ? WHERE id = ?", [item.qty, item.id]);
+
+            // Acumular total
+            total += product.price * item.qty;
+
+            // Guardar datos para insertar en detalles_ventas después de generar el orderId
+            itemsToInsert.push({
+                productId: product.id,
+                title: product.title,
+                qty: item.qty,
+                price: product.price
+            });
+        }
+
+        // Generar ID correlativo de orden
+        const [countResult] = await connection.query("SELECT COUNT(*) AS count FROM historial_ventas");
+        const nextOrderNum = 1093 + countResult[0].count;
+        const orderId = `#ORD-${nextOrderNum}`;
+
+        // Crear la orden en la tabla de historial_ventas
+        await connection.query(
+            "INSERT INTO historial_ventas (order_id, customer_name, total, status) VALUES (?, ?, ?, 'Procesando')",
+            [orderId, name, total]
+        );
+
+        // Crear los registros correspondientes en detalles_ventas
+        for (const item of itemsToInsert) {
+            await connection.query(
+                "INSERT INTO detalles_ventas (sale_id, product_id, product_title, quantity, price) VALUES (?, ?, ?, ?, ?)",
+                [orderId, item.productId, item.title, item.qty, item.price]
+            );
+        }
+
+        // Confirmar transacción
+        await connection.commit();
+
+        res.json({
+            success: true,
+            message: "¡Compra finalizada con éxito!",
+            orderId: orderId,
+            total: total
+        });
+
+    } catch (err) {
+        if (connection) {
+            await connection.rollback();
+        }
+        console.error("❌ Error durante el checkout:", err);
+        res.status(400).json({ success: false, message: err.message });
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
+});
+
 
 // Iniciar el servidor e inicializar la DB
 app.listen(PORT, async () => {

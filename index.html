@@ -23,11 +23,11 @@
             </button>
             <div class="search-bar">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Buscar productos deportivos...">
+                <input type="text" id="search-input" placeholder="Buscar productos deportivos...">
             </div>
             <div class="nav-icons">
-                <a href="#"><i class="fa-regular fa-comment"></i></a>
-                <a href="#"><i class="fa-regular fa-heart"></i></a>
+                <a href="#" id="comments-icon"><i class="fa-regular fa-comment"></i></a>
+                <a href="#" id="fav-icon"><i class="fa-regular fa-heart"></i><span class="fav-badge" id="fav-badge">0</span></a>
                 <a href="#" id="cart-icon"><i class="fa-solid fa-cart-shopping"></i><span
                         class="cart-badge">0</span></a>
                 <a href="login.html"><i class="fa-regular fa-user"></i></a>
@@ -60,6 +60,18 @@
             </div>
             <button class="btn-promo" id="btn-promo-buy">Comprar Ahora</button>
         </section>
+
+        <div class="search-results-msg" id="search-results-msg" style="display:none;">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span id="search-results-text"></span>
+            <button id="clear-search" class="btn-clear-search"><i class="fa-solid fa-xmark"></i> Limpiar</button>
+        </div>
+
+        <div class="no-results-msg" id="no-results-msg" style="display:none;">
+            <i class="fa-regular fa-face-frown"></i>
+            <h3>No se encontraron productos</h3>
+            <p>Intenta con otro término de búsqueda</p>
+        </div>
 
         <section class="products-section" id="products-section">
             <div class="section-header">
@@ -213,6 +225,55 @@
             <button class="btn-clear-cart" id="clear-cart">Vaciar Carrito</button>
         </div>
     </aside>
+
+    <!-- Sidebar de Favoritos -->
+    <div class="fav-overlay" id="fav-overlay"></div>
+    <aside class="fav-sidebar" id="fav-sidebar">
+        <div class="fav-header">
+            <h3><i class="fa-solid fa-heart"></i> Mis Favoritos</h3>
+            <button id="close-fav"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="fav-items" id="fav-items">
+            <div class="empty-fav-msg">
+                <i class="fa-regular fa-heart"></i>
+                <p>No tienes favoritos aún</p>
+            </div>
+        </div>
+        <div class="fav-footer">
+            <button class="btn-clear-fav" id="clear-fav"><i class="fa-regular fa-trash-can"></i> Vaciar Favoritos</button>
+        </div>
+    </aside>
+
+    <!-- Sidebar de Comentarios -->
+    <div class="comments-overlay" id="comments-overlay"></div>
+    <aside class="comments-sidebar" id="comments-sidebar">
+        <div class="comments-header">
+            <h3><i class="fa-regular fa-comment"></i> Comentarios</h3>
+            <button id="close-comments"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="comments-items" id="comments-items">
+            <!-- Comentarios dinámicos -->
+        </div>
+        <div class="comments-footer">
+            <h4>Deja tu comentario</h4>
+            <form id="comment-form" class="comment-form">
+                <input type="text" id="comment-name" placeholder="Tu nombre" required>
+                <div class="comment-rating-input">
+                    <label>Calificación:</label>
+                    <select id="comment-rating">
+                        <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                        <option value="4">⭐⭐⭐⭐ (4)</option>
+                        <option value="3">⭐⭐⭐ (3)</option>
+                        <option value="2">⭐⭐ (2)</option>
+                        <option value="1">⭐ (1)</option>
+                    </select>
+                </div>
+                <textarea id="comment-text" placeholder="Escribe tu comentario aquí..." required></textarea>
+                <button type="submit" class="btn-submit-comment">Enviar Comentario</button>
+            </form>
+        </div>
+    </aside>
+
     <div class="product-modal-overlay" id="product-modal">
         <div class="product-modal-content">
             <button class="close-product-modal"><i class="fa-solid fa-xmark"></i></button>
@@ -227,6 +288,7 @@
                             class="fa-solid fa-star"></i><span>(128 reseñas)</span></div>
                     <div class="modal-price"><span class="modal-current-price" id="modal-price"></span><span
                             class="modal-old-price" id="modal-old-price"></span></div>
+                    <p class="modal-stock" id="modal-stock" style="margin-bottom: 15px; font-weight: 600; font-size: 14px;"></p>
                     <p class="modal-description" id="modal-desc">Conjunto deportivo de alta calidad diseñado para
                         ofrecer la mejor
                         experiencia.</p>
